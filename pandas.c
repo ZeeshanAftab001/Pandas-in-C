@@ -5,10 +5,12 @@
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
+#include "pandas.h"
 
 
-char ** read_csv(char * file_name,int *num_cols){
+DataFrame read_csv(char * file_name){
 
+    DataFrame df;
     char *header=NULL;
     size_t len=0; 
     FILE *file=fopen(file_name,"r");
@@ -19,14 +21,13 @@ char ** read_csv(char * file_name,int *num_cols){
         if (header[read - 1] == '\n') header[read - 1] = '\0';
        // printf("Header: %s\n", header);
     }
+    df.cols=1;
+    df.rows=0;
 
-    int cols = 1;
     for (int i = 0; i < strlen(header); i++){
-        if(header[i]==',') cols++;
+        if(header[i]==',') df.cols++;
     }
-   // printf("\nNo of Colums are : %d",cols);
-
-    char ** colums=malloc(cols * sizeof(char *));
+    df.columns=malloc(df.cols*sizeof(char *));
 
     /*
         Tokenization of Column Names on the basis of ,
@@ -37,26 +38,22 @@ char ** read_csv(char * file_name,int *num_cols){
     // printf("\n%s\n",token);
     int col=0;
     while (token){
-        colums[col++]=strdup(token);
+        df.columns[col++]=strdup(token);
         token=strtok(NULL,",");
     }
 
-    *num_cols = cols;
-  
-    return colums;
+    fclose(file);
+
+    return df;
 }
 
 
 int main(){
 
-    char **columns;
-    int num_cols;
-    columns=read_csv("file.csv",&num_cols);
-    for(int i=0;i<num_cols;i++){
-        printf("\n%s\n",columns[i]);
+    DataFrame df=read_csv("file.csv");
+    for (int i = 0; i < df.cols; i++)
+    {
+        printf("\n%s\n",df.columns[i]);
     }
-    for(int i=0;i<num_cols;i++){
-        free(columns[i]);
-    }
-  
+    
 }
