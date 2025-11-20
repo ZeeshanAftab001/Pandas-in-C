@@ -12,8 +12,12 @@ typedef struct{
 
 } DataFrame;
 
-DataFrame read_csv(char * file_name);
+DataFrame read_csv(char *);
 
 void display_df(DataFrame *);
+void df_head(DataFrame *,int);
+void df_info(DataFrame *);
+void df_describe(DataFrame *);
+DataFrame df_select_columns(DataFrame *,char *);
 
 #endif // PANDAS_H

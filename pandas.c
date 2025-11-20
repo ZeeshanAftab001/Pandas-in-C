@@ -110,6 +110,43 @@ void display_df(DataFrame *df){
 
 }
 
+void df_head(DataFrame *df,int rows){
+
+    if (rows > df->rows) rows = df->rows;
+    
+    printf("\n------DataFrame-----\n");
+    printf("\n--------------------\n");
+    printf("|");
+    for (int i = 0; i < df->cols; i++){
+        printf(" %s |",df->columns[i]);
+    }
+    printf("\n--------------------\n");
+    printf("\n--------------------\n");
+    printf("|");
+    for (int i = 0; i < rows; i++) {
+
+        for (int j = 0; j < df->cols; j++) {
+        printf(" %s |", df->data[i][j]);  
+        }
+        printf("\n--------------------\n");
+    }
+}
+
+void df_info(DataFrame * df){
+    printf("\n------DataFrame Info-----\n");
+    printf("No of Rows : %d\n",df->rows);
+    printf("No of colums : %d\n",df->cols);
+    printf("Column Names : \n");
+    for (int i = 0; i < df->cols; i++){
+        printf("%d.%s\n",i+1,df->columns[i]);
+    }
+    
+}
+
+void df_describe(DataFrame *df){
+    
+}
+
 
 int main(){
 
@@ -118,7 +155,8 @@ int main(){
     
 
     printf("\n");
-    display_df(&df);
+    df_head(&df,10);
+    df_info(&df);
     /*
     free the memory
     */
