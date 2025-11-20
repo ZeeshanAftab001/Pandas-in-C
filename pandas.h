@@ -8,6 +8,7 @@ typedef struct{
     char *** data; // 2d of strings for storsing data in rows and columns.
     int rows;
     int cols;
+    int capacity;
 
 } DataFrame;
 
